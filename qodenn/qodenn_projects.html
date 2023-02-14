@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://i.imgur.com/qRlHHY4.png">
+    <link href="https://fonts.cdnfonts.com/css/thegoodmonolith" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/space-mono" rel="stylesheet">
+    <title>qodenn / projects</title>
+    <style>
+
+        body {
+            background-color: #000;
+            overflow-y: hidden;
+            cursor: cell;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .rupert {
+            width: fit-content;
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 38px;
+            margin-bottom: -73px;
+        }
+
+        .nav {
+            border: #fff solid 0px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 81%;
+            margin-top: 64px;
+            margin-bottom: -103px;
+            transition: 2s;
+        }
+
+        @media only screen and (max-width: 1500px) {
+            .nav {
+                width: 80%;
+            }
+        }
+
+        @media only screen and (max-width: 1300px) {
+            .nav {
+                width: 78%;
+            }
+        }
+
+        @media only screen and (max-width: 1300px) {
+            .nav {
+                width: 76%;
+            }
+        }
+
+        @media only screen and (max-width: 1120px) {
+            .nav {
+                width: 74%;
+            }
+        }
+
+        @media only screen and (max-width: 888px) {
+            .nav {
+                width: 73%;
+            }
+        }
+
+        @media only screen and (max-width: 670px) {
+            .nav {
+                width: 67%;
+            }
+        }
+
+        @media only screen and (max-width: 570px) {
+            .nav {
+                width: 60%;
+            }
+        }
+
+        #time {
+            font-family: 'Space Mono';
+            color: #fff;
+            border: #ffffff00 solid .5px;
+            width: fit-content;
+            margin-left: auto;
+        }
+
+        .globe {
+            width: 16px;
+            margin-bottom: -26px;
+        }
+
+        .menux {
+            color: #fff;
+            font-family: 'Space Mono';
+            width: fit-content;
+            margin-top: 0px;
+            margin-bottom: -28px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            bottom: 3px;
+        }
+
+        .menux:hover {
+            cursor: pointer;
+        }
+
+        .qodenn {
+            display: block;
+            width: 215px;
+        }
+
+        .border {
+            margin-top: 110px;
+            margin-left: auto;
+            margin-right: auto;
+            border: #fff solid 1.5px;
+            border-radius: 80px;
+            height: 744px;
+            width: 90%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            transition: 1s;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(3, 1fr);
+        }
+
+        #repo {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        #info {
+            font-family: 'Space Mono';
+            color: #fff;
+            border: #ffffff00 solid .5px;
+            width: fit-content;
+            height: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #dead {
+            background-color: #0000;
+        }
+
+        @media only screen and (max-width: 500px) {
+            .border {
+                width: 90%;
+            }
+        }
+
+        @media only screen and (max-height: 960px) {
+            .border {
+                height: 63vh;
+            }
+        }
+        
+        .footer {
+            color: #fff;
+            font-family: 'TheGoodMonolith', sans-serif;
+            text-align: center;
+            margin-top: 25px;
+            font-size: 10px;
+            opacity: .7;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="rupert">
+        <a href="file:///Users/denistrautvein/Documents/_/code/qodenn/qodenn_01.html">
+            <img src="https://i.imgur.com/MxpZi5P.png" class="qodenn" alt="qodenn">
+        </a>
+    </div>
+    
+    <div class="nav">
+        <img src="https://i.imgur.com/dRaQIa5.gif" class="globe" alt="globe">
+        <a href="file:///Users/denistrautvein/Documents/_/code/qodenn/qodenn_01.html">
+            <h3 data-value="menu" class="menux">back</h3>
+        </a>
+        <div id="time"></div>
+    </div>
+
+    <div class="border">
+        <div id="dead"></div>
+        <div id="repo">
+            <div id="info"><h3>no projects published yet</h3></div>
+        </div>
+        <div id="dead"></div>
+    </div>
+    <div class="footer"><h3>qodenn &copy</h3></div>
+
+    <script>
+        //time//
+        let time = document.getElementById("time");
+
+            setInterval(() => {
+            let date = new Date();
+            let hours = date.getHours().toString().padStart(2, "0");
+            let minutes = date.getMinutes().toString().padStart(2, "0");
+            let seconds = date.getSeconds().toString().padStart(2, "0");
+
+        time.innerHTML = `${hours}:${minutes}:${seconds}`;
+        }, 100);
+
+        //menu interval//
+        const letters = "acemnorsuvwxz";
+
+        let interval = null;
+
+        document.querySelectorAll(".menux").forEach(element => {  
+            element.onmouseover = event => {  
+                let iteration = 0;
+                
+                clearInterval(interval);
+                
+                interval = setInterval(() => {
+                    event.target.innerText = event.target.innerText
+                    .split("")
+                    .map((letter, index) => {
+                        if(index < iteration) {
+                        return event.target.dataset.value[index];
+                        }
+                    
+                        return letters[Math.floor(Math.random() * 13)]
+                    })
+                    .join("");
+                    
+                    if(iteration >= event.target.dataset.value.length){ 
+                    clearInterval(interval);
+                    }
+                    
+                    iteration += 1 / 2;
+                }, 45);
+            }
+        });
+        
+        //year updater//
+        var currentYear = new Date().getFullYear();
+        document.querySelector('.footer h3').innerHTML = "qodenn &copy " + currentYear;
+
+    </script>
+</body>
+</html>
