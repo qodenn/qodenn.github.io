@@ -1,5 +1,5 @@
 ###### qodenn
-Repo for Portfolio Pode.
+Repo for Portfolio Code.
 
 
 Here, my website will be in recent time..
