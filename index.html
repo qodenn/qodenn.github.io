@@ -159,6 +159,19 @@
             transition: .5s;
         }
 
+        .content_gif {
+            border: #fff solid 1px;
+            border-radius: 77px;
+            height: fit-content;
+            width: 560px;
+            margin-top: 50px;
+            margin-bottom: 60px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
+            transition: .5s;
+        }
+
         .desc {
             color: #fff;
             font-family: 'Space Mono';
@@ -201,6 +214,10 @@
                 width: 80%;
             }
 
+            .content_gif {
+                width: 80%;
+            }
+
             .desc {
                 width: 80%;
             }
@@ -238,6 +255,7 @@
         }
 
         .content:hover,
+        .content_gif:hover,
         .imgr:hover,
         .vid:hover {
             border-radius: 10px;
@@ -347,7 +365,7 @@
     <div class="border">
         <div class="notee"><h3>&#9432; tap the contents to see full image.</h3></div>
 
-        <div class="content" style="background-color: #390b0b;"><img src="https://i.imgur.com/jGouzAa.gif" class="imgr"></div>
+        <div class="content_gif" style="background-color: #390b0b;"><img src="https://i.imgur.com/jGouzAa.gif" class="imgr"></div>
             <div class="desc"><h5 data-value="00028" class="txxt">00028</h5></div>
 
         <div class="content"><video src="https://i.imgur.com/m9TKaJg.mp4" class="vid" autoplay loop onplaying="disableVideoControls();"></div>
@@ -492,6 +510,20 @@
             });
         });
 
+        //gif timeout//
+        var gif = document.querySelector('.content_gif');
+        var duration = 60;
+        
+        var stopGif = function() {
+            gif.src = gif.src;
+        };
+
+        var timerId = setTimeout(stopGif, duration * 1000);
+
+        gif.addEventListener('load', function() {
+            clearTimeout(timerId);
+        }); //this doesn't fucking work..//
+
         //notee fader//
         setTimeout(function() {
             var notee = document.querySelector('.notee');
@@ -549,7 +581,7 @@
                 displayValue = 'none';
             }
             
-            document.querySelectorAll('.content, .desc, .txxt, .notee').forEach(function(el) {
+            document.querySelectorAll('.content, .content_gif, .desc, .txxt, .notee').forEach(function(el) {
                 el.style.display = displayValue;
         });
   
