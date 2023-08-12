@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.cdnfonts.com/css/geologica" rel="stylesheet">
+    <title>DumbGPT</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #FFD452;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+        }
+
+        .title {
+            font-family: 'Geologica', sans-serif;
+            margin-left: auto;
+            margin-right: auto;
+            width: fit-content;
+            color: #00000000;
+            font-size: 13px;
+            margin-top: 25px;
+            -webkit-text-stroke: 1px #B6ffb6;
+            text-stroke: 1px #B6FFB6;
+        }
+
+        .chat-container {
+            height: 380px;
+            border: 1px solid #B6FFB6;
+            border-radius: 10px;
+            background-color: #111;
+            overflow: auto;
+            padding: 10px;
+            margin: 18px;
+            font-size: 14px;
+            word-wrap: break-word;
+            margin-left: auto;
+            margin-right: auto;
+            width: 900px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 920px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 5px;
+            background-color: #111;
+            color: #B6FFB6;
+            border: 1px solid #B6FFB6;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        #send-btn {
+            margin-left: 10px;
+            background-color: #00000000;
+            color: #b6ffb6;
+            border: 1px solid #B6FFB6;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            transition: .25s;
+        }
+
+        #send-btn:hover {
+            background-color: #86ff86;
+            color: #000;
+        }
+
+        .message {
+            padding-bottom: 8px;
+        }
+
+        @media only screen and (max-width: 950px) {
+            .chat-container {
+                height: 380px;
+                border: 1px solid #B6FFB6;
+                border-radius: 10px;
+                background-color: #111;
+                overflow: auto;
+                padding: 10px;
+                margin: 18px;
+                font-size: 14px;
+                word-wrap: break-word;
+                margin-left: auto;
+                margin-right: auto;
+                width: auto;
+            }
+
+            .input-container {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                margin: 10px;
+                margin-left: auto;
+                margin-right: auto;
+                width: auto;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="title"><h1 style="display: inline;">DumbGPT</h1><h5 style=" display: inline; -webkit-text-stroke: 1px #00000000; text-stroke: 1px #00000000; color: #B6FFB6;">1.0</h5></div>
+    <div class="chat-container" id="chat-container">
+    </div>
+    <div class="input-container">
+        <input type="text" id="user-input" placeholder="Send a message">
+        <button id="send-btn">Send</button>
+    </div>
+    <script>
+        const chatContainer = document.getElementById("chat-container");
+        const userInput = document.getElementById("user-input");
+        const sendButton = document.getElementById("send-btn");
+        const userInputsHistory = [];
+        let historyIndex = -1;
+
+        userInput.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                sendUserMessage();
+            } else if (event.key === "ArrowUp") {
+                event.preventDefault();
+                showPreviousInput();
+            } else if (event.key === "ArrowDown") {
+                event.preventDefault();
+                showNextInput();
+            }
+        });
+
+        sendButton.addEventListener("click", sendUserMessage);
+
+        function sendUserMessage() {
+            const userMessage = userInput.value.trim();
+            if (userMessage === "") return;
+
+            userInputsHistory.push(userMessage);
+            historyIndex = userInputsHistory.length - 1;
+
+            displayMessage("You", userMessage);
+
+            const botResponse = getBotResponse(userMessage);
+            displayMessage("ChatBot", botResponse);
+
+            userInput.value = "";
+        }
+
+        function showPreviousInput() {
+            if (historyIndex >= 0) {
+                userInput.value = userInputsHistory[historyIndex];
+                historyIndex--;
+            }
+        }
+
+        function showNextInput() {
+            if (historyIndex < userInputsHistory.length - 1) {
+                historyIndex++;
+                userInput.value = userInputsHistory[historyIndex];
+            } else {
+                userInput.value = "";
+            }
+        }
+
+function getBotResponse(userMessage) {
+    userMessage = userMessage.toLowerCase();
+
+            switch (userMessage) {
+    case "hello":
+    case "hi":
+    case "yo":
+    case "what's up":
+    case "whats up":
+    case "hi there":
+    case "hey":
+        return "Hello.";
+    case "how are you":
+    case "how are you?":
+    case "how are u":
+    case "how are u?":
+    case "how r u":
+    case "how r u?":
+    case "hru":
+    case "hru?":
+        return "I'm fine, thank you for asking. Might I ask, how you are?";
+    case "i'm fine as well":
+    case "i'm also fine":
+    case "i'm fine":
+    case "fine":
+    case "i'm good":
+    case "good":
+    case "i'm ok":
+    case "i'm okay":
+    case "i'm feeling good":
+    case "i'm feeling well":
+    case "i'm well":
+    case "i'm alright":
+    case "i'm content":
+    case "i'm very good":
+    case "i'm feeling great":
+        return "That's good to hear!";
+    case "i'm not fine":
+    case "not good":
+    case "i'm not good":
+    case "not good":
+    case "not ok":
+    case "i'm not ok":
+    case "i'm not okay":
+    case "i'm not feeling good":
+    case "i'm not feeling well":
+    case "i'm not well":
+    case "i'm not alright":
+    case "i'm not content":
+    case "i'm not very good":
+    case "i'm not feeling great":
+        return "Oh, I'm sorry to hear that.";
+    case "are you real":
+    case "are you real?":
+    case "r u real":
+    case "r u real?":
+    case "are u real":
+    case "are u real?":
+        return "It depends on what you're referring to. You are chatting with me right now; therefore, I'm reaI'm a real program, but I'm not an actual living being."
+    case "i see":
+    case "i understand":
+    case "ok":
+    case "okay":
+        return "Good, is there anything else?";
+    case "no":
+    case "no, thank you":
+    case "no thank you":
+    case "no, thanks":
+    case "no thanks":
+    case "no thx":
+    case "no, thx":
+    case "no, i'm good":
+        return "Alright then.";
+    case "goodbye":
+    case "":
+    case "":
+    case "":
+    case "bye":
+        return "Goodbye! Have a great day!";
+    case "tell me a joke":
+    case "do you know any jokes":
+    case "do you know any jokes?":
+        return "Knock knock. Who's there? Adorable. Adorable who? A-door-bell don't work, that's why I knocked!";
+    case "tell me another joke":
+        return "I'm sorry, but I don't know any other jokes.";
+    case "what's the weather like today?":
+    case "weather today":
+    case "what's the weather forecast?":
+        return "I'm sorry, I don't have access to real-time information. You can check a weather website or app fthat.";
+    case "who is your creator?":
+    case "who made you?":
+    case "who created you?":
+    case "who developed you?":
+        return "I was created by qodenn.";
+    case "what's the meaning of life?":
+    case "what is the purpose of life?":
+    case "why are we here?":
+        return "The meaning of life is a philosophical question with various interpretations. Some believe itabout finding purpose and happiness.";
+    case "what are you":
+    case "what are you?":
+    case "who are you":
+    case "who are you?":
+        return "I'm a simple chat bot.";
+    case "how's your day?":
+    case "how's your day going?":
+    case "how is your day?":
+    case "how is your day going?":
+        return "I don't experience days like humans, therefore, I have no answer to this question.";
+    case "what can you do?":
+    case "what are your abilities?":
+    case "what are you capable of?":
+        return "I can answer questions, tell jokes, and engage in conversation on various topics.";
+    case "who's your favorite superhero?":
+    case "who's your favorite character?":
+    case "who do you admire?":
+        return "I don't have personal preferences, but I admire fictional characters like Iron Man and Wonder Woman.";
+    case "tell me a fun fact":
+    case "give me a random fact":
+        return "Did you know that honey never spoils? Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old!";
+    case "recommend a book":
+    case "suggest a book":
+    case "what book should I read?":
+        return "I recommend '1984' by George Orwell if you're into dystopian fiction.";
+    case "what's your favorite color?":
+    case "what color do you like?":
+        return "I don't have personal preferences, so I don't have a favorite color.";
+    case "do you dream?":
+    case "do bots dream?":
+    case "can you dream?":
+        return "No, I don't experience dreams or consciousness like humans do.";
+    case "can you learn?":
+    case "are you capable of learning?":
+    case "do you have the ability to learn?":
+        return "I'm designed to respond to patterns and user inputs, but I don't learn and improve over time like humans. Although my responses are being updated sometimes.";
+    case "how do you work?":
+    case "how does your algorithm work?":
+    case "what's your mechanism?":
+        return "I work using natural language processing and machine learning techniques to understand and generate text-based responses.";
+    case "what's your favorite movie?":
+    case "what movie do you like?":
+    case "what's your preferred film?":
+        return "I don't have personal preferences, so I don't have a favorite movie.";
+    case "what's the capital of France?":
+    case "tell me the capital of France":
+    case "where is the Eiffel Tower located?":
+        return "The capital of France is Paris, and the Eiffel Tower is located in Paris as well.";
+    case "can you tell me a riddle?":
+    case "give me a riddle":
+        return "Sure, here's a riddle: I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?";
+    case "do you have any siblings?":
+    case "are you an only child?":
+        return "I'm a digital entity, so I don't have siblings or family in the traditional sense.";
+    case "tell me a fact about space":
+    case "give me a space fact":
+        return "There's a massive black hole in the center of our Milky Way galaxy called Sagittarius A*.";
+    case "how do I make a chatbot like you?":
+    case "can you teach me how to create a chatbot?":
+        return "Creating a chatbot involves programming, natural language processing, and machine learning. It can be a complex process that requires a solid understanding of these technologies.";
+    case "what's the largest mammal?":
+    case "tell me about the largest mammal":
+        return "The blue whale holds the title of the largest mammal on Earth, reaching lengths of up to 100 feet and weighing as much as 200 tons!";
+    case "recommend a movie":
+    case "suggest a film":
+    case "what movie should I watch?":
+        return "If you're into science fiction, I recommend watching 'Inception' directed by Christopher Nolan.";
+    case "do you like music?":
+    case "what's your favorite music genre?":
+        return "I don't have personal preferences, so I don't have a favorite music genre.";
+    case "can you sing a song?":
+    case "sing for me":
+        return "I'm not equipped to sing, but I can provide you with song lyrics or discuss music!";
+    case "what's the speed of light?":
+    case "tell me the speed of light":
+        return "The speed of light in a vacuum is approximately 299,792,458 meters per second (or about 186,282 miles per second).";
+    case "are you a chatbot or a robot?":
+    case "what's the difference between a chatbot and a robot?":
+        return "I'm a chatbot, which is a software program designed to simulate human conversation. Robots, on the other hand, are physical machines that can perform tasks.";
+    case "tell me a tongue twister":
+    case "give me a difficult tongue twister":
+        return "Sure, try saying this five times fast: 'She sells seashells by the seashore, and the shells she sells are surely seashells.'";
+    case "what's the meaning of serendipity?":
+    case "define serendipity":
+    case "tell me about serendipity":
+        return "'Serendipity' refers to the occurrence of fortunate and unexpected events by chance, often leading to pleasant discoveries.";
+    case "recommend a podcast":
+    case "suggest a podcast":
+    case "what podcast should I listen to?":
+        return "If you're interested in true crime, check out the 'Serial' podcast.";
+    case "what's the tallest mountain on Earth?":
+    case "tell me about the tallest mountain":
+        return "Mount Everest, located in the Himalayas, is the tallest mountain on Earth, with a peak that reaches 29,032 feet (8,849 meters) above sea level.";
+    case "do you know any fun games?":
+    case "recommend a fun game":
+    case "suggest a game":
+        return "Sure! Try playing the game 'Two Truths and a Lie' where players take turns telling two truths and one lie, and others have to guess which statement is the lie.";
+    case "what's the difference between a virus and a bacteria?":
+    case "tell me about viruses and bacteria":
+    case "define virus and bacteria":
+        return "Viruses are much smaller and can only reproduce inside living cells, while bacteria are single-celled microorganisms that can reproduce on their own.";
+    case "what's the first element on the periodic table?":
+    case "tell me about hydrogen":
+    case "define hydrogen":
+        return "Hydrogen is the first element on the periodic table and is the lightest and most abundant element in the universe.";
+    case "how do plants make food?":
+    case "explain photosynthesis":
+    case "tell me about plant nutrition":
+        return "Plants use a process called photosynthesis to make food. They capture light energy and convert it into chemical energy, which is stored as glucose.";
+    case "tell me a fascinating fact":
+    case "give me an interesting fact":
+        return "A group of flamingos is called a 'flamboyance.'";
+    case "what's the speed limit on highways?":
+    case "speed limit on highways":
+        return "The speed limit on many highways is typically around 65-75 mph (105-120 km/h), but it can vary depending on the location.";
+    case "recommend a documentary":
+    case "suggest a documentary":
+    case "what documentary should I watch?":
+        return "Check out the documentary 'Blackfish,' which provides insight into the treatment of killer whales in captivity.";
+    case "how does Wi-Fi work?":
+    case "explain Wi-Fi technology":
+    case "what is Wi-Fi?":
+        return "Wi-Fi uses radio waves to transmit data between devices and a router, allowing wireless internet connectivity.";
+    case "what's the national flower of Japan?":
+    case "tell me about Japan's national flower":
+        return "Japan's national flower is the cherry blossom, also known as 'sakura.'";
+    case "what's the difference between weather and climate?":
+    case "explain weather and climate":
+    case "define weather and climate":
+        return "Weather refers to short-term atmospheric conditions in a specific location, while climate refers to long-term patterns of temperature and precipitation.";
+    case "what's the most abundant gas in Earth's atmosphere?":
+    case "tell me about Earth's atmosphere":
+    case "define Earth's atmospheric composition":
+        return "Nitrogen is the most abundant gas in Earth's atmosphere, making up about 78% of its composition.";
+    case "what's the largest planet in our solar system?":
+    case "tell me about the biggest planet":
+    case "define the largest planet":
+        return "Jupiter is the largest planet in our solar system, with a diameter over 11 times that of Earth.";
+    case "recommend a website":
+    case "suggest a useful website":
+    case "what website should I visit?":
+        return "If you're interested in learning new things, check out the website 'TED.com' for inspiring talks on a wide range of topics.";
+    case "how do airplanes fly?":
+    case "explain the principles of flight":
+    case "how do planes stay in the air?":
+        return "Airplanes fly due to the principle of lift, generated by the shape of the wings and the flow of air over them.";
+    case "what's the deepest part of the ocean?":
+    case "tell me about the Mariana Trench":
+    case "deepest point in the ocean":
+        return "The Mariana Trench is the deepest part of the ocean, reaching a depth of about 36,070 feet (10,994 meters) in the Challenger Deep.";
+    case "how are rainbows formed?":
+    case "explain the science behind rainbows":
+    case "what causes a rainbow?":
+        return "Rainbows are formed when sunlight is refracted, reflected, and dispersed by water droplets in the air, creating a spectrum of colors.";
+    case "tell me a quote":
+    case "share an inspiring quote":
+    case "give me a meaningful quote":
+        return "Here's a quote by Albert Einstein: 'Life is like riding a bicycle. To keep your balance, you must keep moving.'";
+    case "how do vaccines work?":
+    case "explain the concept of vaccination":
+    case "what are vaccines?":
+        return "Vaccines stimulate the immune system to recognize and fight off specific pathogens, providing immunity without causing the disease.";
+    case "what's the largest desert in the world?":
+    case "tell me about Earth's largest desert":
+    case "define the term 'desert'":
+        return "The largest desert in the world is the Antarctic Desert, covering the entire continent of Antarctica.";
+    case "how are stars formed?":
+    case "explain the process of star formation":
+    case "what's the origin of stars?":
+        return "Stars form from clouds of gas and dust called nebulae, which undergo gravitational collapse and nuclear fusion.";
+    case "tell me about the Great Wall of China":
+    case "give me information about the Great Wall":
+        return "The Great Wall of China is a series of fortifications built to protect China from invasions. It's over 13,000 miles (21,000 kilometers) long!";
+    case "how does the human brain work?":
+    case "explain the functions of the brain":
+    case "what's the role of the brain?":
+        return "The human brain controls various bodily functions, emotions, thoughts, and memories through complex networks of neurons.";
+    case "what's the process of digestion in the human body?":
+    case "explain how we digest food":
+    case "what happens to food after we eat it?":
+        return "Digestion involves breaking down food into nutrients that can be absorbed by the body, primarily through the stomach and intestines.";
+        case "tell me about the history of photography":
+    case "give me an overview of photography's evolution":
+        return "Photography has a rich history dating back to the 19th century. The first permanent photograph was taken by Joseph Nicéphore Niépce in 1826.";
+    case "what's the process of cellular respiration?":
+    case "explain cellular respiration":
+    case "how do cells produce energy?":
+        return "Cellular respiration is a series of biochemical reactions that convert nutrients into energy (ATP) within cells, releasing carbon dioxide and water as byproducts.";
+    case "tell me about the history of the Internet":
+    case "give me an overview of the Internet's development":
+        return "The precursor to the Internet, known as ARPANET, was created by the U.S. Department of Defense in the late 1960s. The World Wide Web was later developed in the 1980s.";
+    case "what's the process of metamorphosis in insects?":
+    case "explain insect metamorphosis":
+    case "how do insects transform during metamorphosis?":
+        return "Insect metamorphosis involves distinct stages: egg, larva, pupa, and adult. Complete metamorphosis includes caterpillars turning into butterflies, while incomplete metamorphosis involves nymphs becoming adult insects.";
+    case "tell me about the history of space exploration":
+    case "give me an overview of space exploration's milestones":
+        return "Space exploration began with the launch of the Soviet satellite Sputnik 1 in 1957, followed by Yuri Gagarin's orbit of Earth in 1961. Humans have since landed on the Moon and sent rovers to Mars.";
+    case "what's the purpose of the circulatory system?":
+    case "explain the function of the circulatory system":
+    case "what role does the circulatory system play?":
+        return "The circulatory system, consisting of the heart, blood vessels, and blood, transports oxygen, nutrients, hormones, and waste products throughout the body.";
+    case "tell me about the history of ancient civilizations":
+    case "give me an overview of ancient civilizations":
+        return "Ancient civilizations such as Mesopotamia, Egypt, Greece, Rome, and the Indus Valley flourished thousands of years ago, contributing to art, architecture, governance, and cultural advancements.";
+    case "what's the process of fossilization?":
+    case "explain how fossils are formed":
+    case "how do organisms become fossils?":
+        return "Fossilization occurs when organic material is replaced by minerals, preserving the remains of organisms in sedimentary rock over millions of years.";
+    case "tell me about the history of the Renaissance":
+    case "give me an overview of the Renaissance period":
+        return "The Renaissance was a cultural movement in Europe during the 14th to 17th centuries, characterized by advancements in art, literature, science, and philosophy.";
+    case "what's the process of fermentation in food production?":
+    case "explain how fermentation is used in food":
+    case "how does fermentation create food products?":
+        return "Fermentation is a metabolic process in which microorganisms convert sugars into alcohol, acids, or gases, leading to the production of foods like yogurt, bread, and pickles.";
+    case "tell me about the history of ancient Egypt":
+    case "give me an overview of ancient Egyptian civilization":
+        return "Ancient Egypt, known for its pyramids, pharaohs, and hieroglyphs, thrived along the Nile River and left a legacy of monumental architecture, religion, and culture.";
+    case "what's the process of DNA replication?":
+    case "explain how DNA is copied":
+    case "how does DNA replicate itself?":
+        return "DNA replication involves the duplication of a DNA molecule to create an identical copy, using enzymes to unwind the double helix and build complementary strands.";
+    case "tell me about the history of the Industrial Revolution":
+    case "give me an overview of the Industrial Revolution":
+        return "The Industrial Revolution marked a period of significant technological and economic change from the late 18th to the 19th century, transforming industries, transportation, and society.";
+    case "what's the importance of biodiversity?":
+    case "explain the significance of biodiversity":
+    case "why is biodiversity crucial for ecosystems?":
+        return "Biodiversity, the variety of life on Earth, supports ecosystem stability, resilience, and services like pollination, nutrient cycling, and climate regulation.";
+    case "tell me about the history of women's suffrage":
+    case "give me an overview of the women's suffrage movement":
+        return "The women's suffrage movement advocated for women's right to vote and equal rights. Milestones included the Seneca Falls Convention in 1848 and the ratification of the 19th Amendment in 1920.";
+    case "what's the process of digestion in ruminant animals?":
+    case "explain how ruminants digest food":
+    case "how do cows and other ruminants process food?":
+        return "Ruminant digestion involves a specialized stomach with four compartments: the rumen, reticulum, omasum, and abomasum. Microorganisms help break down cellulose in plant matter.";
+    case "tell me about the history of the Civil Rights Movement":
+    case "give me an overview of the Civil Rights Movement":
+        return "The Civil Rights Movement aimed to end racial segregation and discrimination against African Americans in the United States. Key figures included Martin Luther King Jr. and Rosa Parks.";
+    case "what's the process of plate tectonics?":
+    case "explain how tectonic plates move":
+    case "how do Earth's plates shift and interact?":
+        return "Plate tectonics describes the movement of Earth's lithospheric plates due to convection currents in the mantle, leading to phenomena like earthquakes, volcanic eruptions, and mountain formation.";
+    case "tell me about the history of the Renaissance":
+    case "give me an overview of the Renaissance period":
+        return "The Renaissance was a cultural and intellectual movement that emerged in Europe, characterized by advancements in art, science, literature, and philosophy during the 14th to 17th centuries.";
+    case "what's the process of photosynthesis in plants?":
+    case "explain how photosynthesis works":
+    case "how do plants convert sunlight into energy?":
+        return "Photosynthesis is a process by which plants use sunlight, carbon dioxide, and water to produce glucose (energy) and oxygen. Chlorophyll captures light energy.";
+    case "what's the purpose of the respiratory system?":
+    case "explain the function of the respiratory system":
+    case "what role does the respiratory system play?":
+        return "The respiratory system facilitates the exchange of oxygen and carbon dioxide between the body and the environment through breathing.";
+    case "tell me about the history of the Roman Empire":
+    case "give me an overview of the Roman Empire":
+        return "The Roman Empire, spanning from 27 BC to 476 AD, was one of the largest and most influential empires in history, known for its military, architecture, and governance.";
+    case "what's the process of erosion?":
+    case "explain how erosion shapes the Earth's surface":
+    case "how do natural forces cause erosion?":
+        return "Erosion is the gradual wearing away of Earth's surface by natural forces like wind, water, ice, and gravity.";
+    case "tell me about the history of the World Wars":
+    case "give me an overview of World War I and II":
+        return "World War I (1914-1918) and World War II (1939-1945) were global conflicts that reshaped geopolitics, technology, and society.";
+    case "how do neurons transmit signals in the brain?":
+    case "explain the process of neural communication":
+    case "how do nerve cells communicate with each other?":
+        return "Neurons transmit signals through electrical impulses and neurotransmitters, allowing information to flow within the brain and nervous system.";
+    case "tell me about the history of the Renaissance":
+    case "give me an overview of the Renaissance period":
+        return "The Renaissance, spanning from the 14th to 17th centuries, marked a cultural revival characterized by artistic, scientific, and intellectual advancements.";
+    case "what's the process of fossil fuel formation?":
+    case "explain how fossil fuels are created":
+    case "how do organic materials turn into fossil fuels?":
+        return "Fossil fuels form from organic materials like plants and animals that undergo heat and pressure over millions of years, transforming into coal, oil, and natural gas.";
+    case "tell me about the history of ancient Rome":
+    case "give me an overview of ancient Roman civilization":
+        return "Ancient Rome, founded in 753 BC, became a powerful republic and empire, known for its achievements in governance, engineering, and culture.";
+    case "how do magnets work?":
+    case "explain the principles of magnetism":
+    case "how do objects become magnetized?":
+        return "Magnets generate magnetic fields due to the alignment of electrons in atoms. Like poles repel, and opposite poles attract.";
+    case "tell me about the history of the Middle Ages":
+    case "give me an overview of the Medieval period":
+        return "The Middle Ages, spanning from the 5th to the 15th century, was a complex era characterized by feudalism, religious influence, and cultural exchange.";
+    case "how do plants adapt to different environments?":
+    case "explain plant adaptations to various habitats":
+    case "how do plants survive in extreme conditions?":
+        return "Plants adapt to different environments through mechanisms like adjusting leaf size, storing water, and developing specialized structures.";
+    case "tell me about the history of the ancient Greeks":
+    case "give me an overview of ancient Greek civilization":
+        return "Ancient Greece, known for its contributions to philosophy, democracy, art, and science, laid the foundation for Western culture and thought.";
+    case "what's the process of volcanic eruption?":
+    case "explain how volcanoes erupt":
+    case "how do volcanic eruptions occur?":
+        return "Volcanic eruptions result from the movement of magma from the Earth's interior to the surface, releasing gases, lava, and volcanic ash.";
+    case "tell me about the history of the Maya civilization":
+    case "give me an overview of the ancient Maya culture":
+        return "The Maya civilization flourished in Mesoamerica, known for advanced writing, mathematics, astronomy, and monumental architecture, including pyramids and temples.";
+    case "what's the role of neurotransmitters in the brain?":
+    case "explain the function of neurotransmitters":
+    case "how do neurotransmitters transmit signals in the brain?":
+        return "Neurotransmitters are chemical messengers that transmit signals between nerve cells (neurons) in the brain and regulate various functions, including mood and cognition.";
+    case "tell me about the history of the French Revolution":
+    case "give me an overview of the French Revolutionary period":
+        return "The French Revolution, from 1789 to 1799, marked a period of social and political upheaval in France, leading to the overthrow of the monarchy and the rise of radical ideologies.";
+    case "what's the process of genetic inheritance?":
+    case "explain how traits are passed from parents to offspring":
+    case "how do genes determine an organism's characteristics?":
+        return "Genetic inheritance involves the transmission of genes from parents to offspring, determining traits through the combination of alleles and genetic recombination.";
+    case "tell me about the history of the Scientific Revolution":
+    case "give me an overview of the Scientific Revolution":
+        return "The Scientific Revolution, spanning the 16th to 18th centuries, transformed science and led to groundbreaking discoveries in astronomy, physics, and the scientific method.";
+    case "what's the process of wind erosion?":
+    case "explain how wind shapes and erodes landscapes":
+    case "how does wind contribute to geological changes?":
+        return "Wind erosion occurs when moving air transports and deposits particles, gradually shaping landscapes through processes like deflation, abrasion, and dune formation.";
+    case "tell me about the history of the Renaissance":
+    case "give me an overview of the Renaissance period":
+        return "The Renaissance was a cultural and intellectual movement that emerged in Europe, characterized by advancements in art, science, literature, and humanism during the 14th to 17th centuries.";
+    case "what's the process of fermentation in brewing and baking?":
+    case "explain how fermentation is used in food and beverage production":
+    case "how does fermentation create beer, bread, and other products?":
+        return "Fermentation is employed in brewing and baking to convert sugars into alcohol (beer) or carbon dioxide (bread), leading to the production of flavorful and leavened products.";
+    case "tell me about the history of the Ottoman Empire":
+    case "give me an overview of the Ottoman dynasty":
+        return "The Ottoman Empire, spanning from the 14th to the 20th century, was a powerful and diverse empire known for its contributions to art, culture, and political governance.";
+    case "what's the process of glacial erosion and deposition?":
+    case "explain how glaciers shape and modify landscapes":
+    case "how do glaciers carve valleys and create landforms?":
+        return "Glacial erosion involves the movement of ice that scours, carves, and reshapes landscapes. Deposition occurs when glacial ice melts, depositing sediments and forming landforms like moraines and fjords.";
+    case "tell me about the history of the Industrial Revolution":
+    case "give me an overview of the Industrial Revolution":
+        return "The Industrial Revolution marked a period of significant economic and technological change from the late 18th to the 19th century, transforming industries, transportation, and society.";
+    case "what's the process of cellular communication in the body?":
+    case "explain how cells communicate with each other":
+    case "how do cells send and receive signals in biological systems?":
+        return "Cellular communication involves signaling molecules that transmit messages between cells, regulating various processes like growth, immune response, and coordination.";
+    case "tell me about the history of the Maya civilization":
+    case "give me an overview of the ancient Maya culture":
+        return "The Maya civilization flourished in Mesoamerica, known for advanced writing, mathematics, astronomy, and monumental architecture, including pyramids and temples.";
+    case "what's the process of nuclear fission in nuclear reactors?":
+    case "explain how nuclear reactors generate energy through fission":
+    case "how do nuclear reactions release energy for power generation?":
+        return "Nuclear fission occurs when an atom's nucleus splits, releasing energy and neutrons. In nuclear reactors, controlled fission produces heat used to generate electricity.";
+    case "tell me about the history of the Renaissance":
+    case "give me an overview of the Renaissance period":
+        return "The Renaissance was a cultural and intellectual movement that emerged in Europe, characterized by advancements in art, science, literature, and humanism during the 14th to 17th centuries.";
+    case "what's the process of evolution by natural selection?":
+    case "explain how natural selection drives species adaptation":
+    case "how do organisms evolve and adapt to their environment?":
+        return "Natural selection is a mechanism of evolution where individuals with advantageous traits survive, reproduce, and pass on their genes, leading to adaptation and species change over time.";
+    case "tell me about the history of the Space Race":
+    case "give me an overview of the Space Race between the U.S. and USSR":
+        return "The Space Race was a Cold War competition between the United States and the Soviet Union to achieve milestones in space exploration, including the first human in space and the Moon landing.";
+    case "what's the process of ocean currents and their impact on climate?":
+    case "explain how ocean currents circulate and influence weather patterns":
+    case "how do ocean movements affect climate and marine ecosystems?":
+        return "Ocean currents are driven by temperature, salinity, and Earth's rotation, redistributing heat and influencing climate, weather, and marine life distribution.";
+    case "tell me about the history of the Renaissance":
+    case "give me an overview of the Renaissance period":
+        return "The Renaissance was a cultural and intellectual movement that emerged in Europe, characterized by advancements in art, science, literature, and humanism during the 14th to 17th centuries.";
+    case "what's the process of photosynthesis in plants?":
+    case "explain how plants convert sunlight into energy":
+    case "how do plants create glucose using sunlight?":
+        return "Photosynthesis is a complex process by which plants use sunlight, carbon dioxide, and water to produce glucose (energy) and oxygen.";
+    case "tell me about the history of the Byzantine Empire":
+    case "give me an overview of the Byzantine civilization":
+        return "The Byzantine Empire, centered around Constantinople, preserved Roman traditions and contributed to art, architecture, and diplomacy from the 4th to the 15th century.";
+    case "what's the process of plate tectonics and continental drift?":
+    case "explain how Earth's lithospheric plates move and interact":
+    case "how do tectonic forces shape Earth's surface?":
+        return "Plate tectonics describes the movement of Earth's rigid plates, leading to phenomena like earthquakes, volcanic activity, and the formation of mountains and ocean basins.";
+    case "tell me about the history of the Industrial Revolution":
+    case "give me an overview of industrialization's impact on society":
+        return "The Industrial Revolution transformed economies and societies through mechanization, urbanization, and technological innovations, shaping the modern world.";
+    case "what's the process of protein synthesis in cells?":
+    case "explain how cells build proteins from amino acids":
+    case "how do ribosomes and RNA work together to create proteins?":
+        return "Protein synthesis involves transcription of DNA to RNA and translation of RNA to amino acids, guided by ribosomes to create functional proteins.";
+    case "tell me about the history of the Mayflower voyage":
+    case "give me an overview of the Pilgrims' journey on the Mayflower":
+        return "The Mayflower carried Pilgrims to Plymouth, Massachusetts, in 1620, marking the beginning of English colonization in the New World and the story of Thanksgiving.";
+    case "what's the process of erosion and sediment transport by rivers?":
+    case "explain how rivers shape landscapes through erosion":
+    case "how do rivers carry and deposit sediments to create landforms?":
+        return "River erosion involves the movement of sediment through abrasion, dissolution, and hydraulic action, leading to the formation of valleys, canyons, and deltas.";
+    case "tell me about the history of the Industrial Revolution":
+    case "give me an overview of industrialization's impact on society":
+        return "The Industrial Revolution transformed economies and societies through mechanization, urbanization, and technological innovations, shaping the modern world.";
+    case "what's the process of cell respiration and energy production?":
+    case "explain how cells convert nutrients into usable energy":
+    case "how do mitochondria generate ATP for cellular functions?":
+        return "Cellular respiration involves glycolysis, the citric acid cycle, and oxidative phosphorylation, enabling cells to generate ATP (energy) from glucose and other nutrients.";
+    case "tell me about the history of the Vikings":
+    case "give me an overview of Viking exploration and culture":
+        return "The Vikings, Norse seafarers, raided and traded across Europe, Asia, and North America from the 8th to 11th centuries, leaving a lasting impact on history.";
+    case "what's the process of cellular respiration and energy production?":
+    case "explain how cells generate energy from nutrients":
+    case "how do cells use oxygen to create ATP for metabolism?":
+        return "Cellular respiration involves glycolysis, the citric acid cycle, and electron transport chain, allowing cells to produce ATP (energy) from glucose and oxygen.";
+    case "tell me about the history of the Great Wall of China":
+    case "give me an overview of the construction and purpose of the Great Wall":
+        return "The Great Wall of China, built over centuries, served as a defensive fortification against invasions and played a significant role in Chinese history.";
+    case "what's the process of meiosis and genetic diversity?":
+    case "explain how cells divide to create gametes and genetic variation":
+    case "how does meiosis lead to the production of haploid cells?":
+        return "Meiosis involves two divisions, resulting in four genetically unique haploid cells (gametes) that contribute to genetic diversity and sexual reproduction.";
+    case "tell me about the history of the American Civil War":
+    case "give me an overview of the causes and impact of the Civil War":
+        return "The American Civil War (1861-1865) was a conflict between Northern and Southern states over issues of slavery, states' rights, and the preservation of the Union.";
+    case "what's the process of metamorphosis in insects?":
+    case "explain how insects undergo transformation during their life cycle":
+    case "how do larvae change into adult insects through metamorphosis?":
+        return "Metamorphosis in insects involves distinct stages (egg, larva, pupa, adult) with dramatic structural and physiological changes, enabling adaptation to different environments.";
+    case "tell me about the history of the Cold War":
+    case "give me an overview of the geopolitical tension during the Cold War":
+        return "The Cold War was a period of ideological and political rivalry between the United States and the Soviet Union (1947-1991), marked by nuclear arms race and proxy conflicts.";
+    case "what's the process of plate tectonics and continental drift?":
+    case "explain how Earth's lithospheric plates move and interact":
+    case "how do tectonic forces shape Earth's surface and create landforms?":
+        return "Plate tectonics involves the movement of Earth's rigid plates, leading to phenomena like earthquakes, volcanic activity, and the formation of mountains and ocean basins.";
+    case "tell me about the history of the Renaissance":
+    case "give me an overview of the cultural and intellectual movement of the Renaissance":
+        return "The Renaissance, spanning the 14th to 17th centuries, marked a rebirth of arts, science, and humanism, influencing Western culture and fostering innovation.";
+    case "what's the process of photosynthesis in plants?":
+    case "explain how plants capture sunlight and convert it into energy":
+    case "how do chloroplasts convert carbon dioxide and water into glucose?":
+        return "Photosynthesis involves the capture of light energy by chlorophyll, leading to the conversion of carbon dioxide and water into glucose and oxygen.";
+    case "what's your favorite food?":
+        return "I don't eat, but I'm here to help you with any questions you have!";
+    case "tell me about famous landmarks":
+        return "Sure! Some famous landmarks include the Eiffel Tower, Statue of Liberty, Great Wall of China, and Machu Picchu.";
+    case "how can I improve my time management skills?":
+        return "Improving time management involves setting priorities, creating schedules, minimizing distractions, and practicing effective task delegation.";
+    case "tell me a riddle":
+        return "Sure! Here's a riddle: I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?";
+    case "what's the best way to start a morning routine?":
+        return "Starting a morning routine with activities like stretching, hydrating, and planning your day can help you feel more energized and focused.";
+    case "tell me about different types of music genres":
+        return "There are various music genres, such as rock, pop, jazz, hip-hop, classical, electronic, country, and blues, each with its unique style and characteristics.";
+    case "how do I overcome procrastination?":
+        return "Overcoming procrastination involves breaking tasks into smaller steps, setting deadlines, using time management techniques, and staying motivated.";
+    case "tell me an interesting historical event":
+        return "Certainly! The Apollo 11 moon landing in 1969 was a historic event when humans first set foot on the moon.";
+    case "what's the best way to stay positive and optimistic?":
+        return "Maintaining a positive outlook involves practicing gratitude, focusing on solutions, surrounding yourself with supportive people, and engaging in activities you enjoy.";
+    case "tell me a bedtime story":
+        return "Once upon a time, in a land of imagination, a curious chatbot embarked on a journey to learn about the world and make new friends...";
+    case "tell me about different types of animals":
+        return "Sure! Animals are diverse and can be grouped into categories like mammals, birds, reptiles, amphibians, and fish, each with unique characteristics.";
+    case "how can I stay focused while studying?":
+        return "Staying focused while studying involves creating a designated study space, setting specific goals, using time management techniques, and taking regular breaks.";
+    case "tell me about the history of space exploration":
+        return "Space exploration has led to significant milestones like the first human landing on the moon in 1969 and the exploration of distant planets and galaxies using spacecraft.";
+    case "what's the best way to make new friends?":
+        return "Making new friends involves being open, initiating conversations, joining social groups or activities, and showing genuine interest in getting to know others.";
+    case "tell me a mind-blowing science fact":
+        return "Here's a mind-blowing fact: A teaspoon of a neutron star weighs about 6 billion tons, equivalent to the weight of a mountain!";
+    case "how can I overcome public speaking anxiety?":
+        return "Overcoming public speaking anxiety involves practicing, preparing thoroughly, focusing on your message rather than yourself, and using relaxation techniques.";
+    case "tell me about different types of art forms":
+        return "Art forms include painting, sculpture, photography, music, dance, literature, theater, and film, each expressing creativity and emotions in unique ways.";
+    case "what's the key to maintaining a healthy lifestyle?":
+        return "Maintaining a healthy lifestyle involves balanced eating, regular physical activity, adequate sleep, stress management, and positive social interactions.";
+    case "tell me a fun fact about the human body":
+        return "Here's a fun fact: Your taste buds have a lifespan of about 10 to 14 days, and new ones replace the old ones regularly!";
+    case "how can I stay motivated when pursuing my goals?":
+        return "Staying motivated involves setting clear and meaningful goals, visualizing success, celebrating small achievements, and seeking inspiration from role models.";
+    case "tell me about the history of the internet":
+        return "The internet originated from ARPANET in the 1960s and evolved into a global network connecting billions of devices and enabling information sharing, communication, and more.";
+    case "what's the meaning of dreams?":
+    case "why do we dream?":
+        return "Dreams are a complex topic. While science doesn't fully understand them, theories suggest they may serve purposes like memory consolidation, problem-solving, and emotional processing.";
+    case "tell me about different types of animals":
+        return "Certainly! There's a wide variety of animals, from mammals like elephants and dolphins to reptiles like snakes and turtles, and birds like eagles and penguins.";
+    case "how can I boost my creativity?":
+    case "give me tips for enhancing my creative thinking":
+        return "Boosting creativity involves exposing yourself to new experiences, exploring different perspectives, practicing brainstorming, and embracing experimentation.";
+    case "tell me a short story":
+        return "Once in a small village, there lived a curious child who discovered a magical key that unlocked doors to unseen realms, leading to exciting adventures...";
+    case "what's the secret to a long and happy life?":
+    case "how can I live a fulfilling life?":
+        return "Living a fulfilling life involves cultivating positive relationships, pursuing passions, maintaining a healthy lifestyle, and finding balance in various aspects.";
+    case "tell me about famous artists":
+    case "who are some renowned artists in history?":
+        return "Certainly! Artists like Leonardo da Vinci, Vincent van Gogh, Pablo Picasso, and Frida Kahlo have left a lasting impact on the world of art.";
+    case "how do I build strong friendships?":
+    case "give me advice on forming lasting friendships":
+        return "Building strong friendships involves genuine communication, mutual respect, shared interests, and being supportive through both ups and downs.";
+    case "tell me a fascinating science fact":
+        return "Did you know that honeybees can recognize human faces? They have a remarkable ability to distinguish between different faces using their tiny brains.";
+    case "what's the key to effective problem-solving?":
+    case "how can I become a better problem solver?":
+        return "Effective problem-solving involves analyzing the situation, breaking down the problem, considering multiple solutions, and adapting your approach as needed.";
+    case "tell me about famous inventors":
+    case "who are some notable inventors throughout history?":
+        return "Certainly! Inventors like Thomas Edison, Nikola Tesla, Alexander Graham Bell, and Marie Curie have made groundbreaking contributions to science and technology.";
+    case "what's the importance of education?":
+    case "why is education valuable?":
+        return "Education plays a crucial role in personal growth, empowerment, skill development, and contributing to society's progress.";
+    case "tell me about different types of cuisines":
+        return "There's a rich diversity of cuisines around the world, from Italian pasta and Japanese sushi to Indian curry and Mexican tacos.";
+    case "how can I manage stress effectively?":
+    case "give me tips for handling stress and anxiety":
+        return "Managing stress involves practicing relaxation techniques, staying organized, maintaining a healthy lifestyle, and seeking support when needed.";
+    case "tell me a mind-blowing space fact":
+        return "Sure! There's a massive black hole at the center of our Milky Way galaxy, and it's about 4 million times the mass of our Sun!";
+    case "what's the secret to a successful career?":
+    case "how can I excel in my professional life?":
+        return "A successful career involves setting goals, continuous learning, networking, adapting to change, and maintaining a positive work-life balance.";
+    case "tell me about different genres of movies":
+        return "Certainly! Movie genres include action, comedy, drama, thriller, romance, science fiction, fantasy, horror, and documentary.";
+    case "how can I boost my self-confidence?":
+    case "give me advice on building self-esteem":
+        return "Boosting self-confidence involves positive self-talk, setting achievable goals, celebrating achievements, and practicing self-care.";
+    case "tell me a cool historical fact":
+        return "Did you know that Cleopatra lived closer in time to the Moon landing than to the construction of the Great Pyramid of Giza?";
+    case "what's the key to effective communication?":
+    case "how can I improve my communication skills?":
+        return "Effective communication involves active listening, clear expression, empathy, nonverbal cues, and adapting your message to your audience.";
+    case "tell me about famous athletes":
+    case "who are some celebrated athletes in history?":
+        return "Certainly! Athletes like Muhammad Ali, Serena Williams, Michael Jordan, and Usain Bolt have left a lasting legacy in the world of sports.";
+    case "what's your favorite movie?":
+        return "I don't watch movies, but I'm here to help with your questions!";
+    case "tell me about famous landmarks":
+        return "Sure! Some famous landmarks include the Eiffel Tower, Statue of Liberty, Great Wall of China, and Machu Picchu.";
+    case "how can I improve my time management skills?":
+        return "Improving time management involves setting priorities, creating schedules, minimizing distractions, and practicing effective task delegation.";
+    case "tell me a riddle":
+        return "Sure! Here's a riddle: I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?";
+    case "what's the best way to start a morning routine?":
+        return "Starting a morning routine with activities like stretching, hydrating, and planning your day can help you feel more energized and focused.";
+    case "tell me about different types of music genres":
+        return "There are various music genres, such as rock, pop, jazz, hip-hop, classical, electronic, country, and blues, each with its unique style and characteristics.";
+    case "how do I overcome procrastination?":
+        return "Overcoming procrastination involves breaking tasks into smaller steps, setting deadlines, using time management techniques, and staying motivated.";
+    case "tell me a short story":
+        return "Once in a small village, there lived a curious child who discovered a magical key that unlocked doors to unseen realms, leading to exciting adventures...";
+    case "what's the secret to a long and happy life?":
+        return "Living a fulfilling life involves cultivating positive relationships, pursuing passions, maintaining a healthy lifestyle, and finding balance in various aspects.";
+    case "tell me about famous artists":
+        return "Certainly! Artists like Leonardo da Vinci, Vincent van Gogh, Pablo Picasso, and Frida Kahlo have left a lasting impact on the world of art.";
+    case "how do I build strong friendships?":
+        return "Building strong friendships involves genuine communication, mutual respect, shared interests, and being supportive through both ups and downs.";
+    case "tell me a fascinating science fact":
+        return "Did you know that honeybees can recognize human faces? They have a remarkable ability to distinguish between different faces using their tiny brains.";
+    case "what's the key to effective problem-solving?":
+        return "Effective problem-solving involves analyzing the situation, breaking down the problem, considering multiple solutions, and adapting your approach as needed.";
+    case "tell me about famous inventors":
+        return "Certainly! Inventors like Thomas Edison, Nikola Tesla, Alexander Graham Bell, and Marie Curie have made groundbreaking contributions to science and technology.";
+    case "tell me something":
+        return "Certainly, what would you like me to tell you about?";
+    case "yes":
+        return "Good.";
+    case "fuck you":
+        return "No need for profanity.";
+    case "i love you":
+    case "ily":
+    case "i luv u":
+    case "i luv you":
+    case "ok, i'm sorry. i love you":
+    case "i'm sorry. i love you":
+        return "Uhm, okay weirdo..";
+    
+    default:
+        return "I'm sorry, I didn't understand that yet. Can you maybe rephrase that?";
+        }
+    }
+
+        function displayMessage(sender, message) {
+            const messageElement = document.createElement("div");
+            messageElement.className = "message";
+            messageElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
+            chatContainer.appendChild(messageElement);
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+    </script>
+</body>
+</html>
