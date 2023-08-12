@@ -141,7 +141,7 @@
             height: 100%;
         }
 
-        #info {
+        #info a {
             font-family: 'Space Mono';
             color: #fff;
             border: #ffffff00 solid .5px;
@@ -149,6 +149,17 @@
             height: fit-content;
             margin-left: auto;
             margin-right: auto;
+            text-decoration: underline;
+        }
+
+        #info a:hover {
+            font-family: 'Space Mono';
+            color: #B6FFB6;
+            width: fit-content;
+            height: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            text-decoration: underline;
         }
 
         #dead {
@@ -180,14 +191,14 @@
 </head>
 <body>
     <div class="rupert">
-        <a href="https://qodenn.github.io">
+        <a href="file:///Users/denistrautvein/Documents/_/code/qodenn/qodenn_01.html">
             <img src="https://i.imgur.com/MxpZi5P.png" class="qodenn" alt="qodenn">
         </a>
     </div>
     
     <div class="nav">
         <img src="https://i.imgur.com/dRaQIa5.gif" class="globe" alt="globe">
-        <a href="https://qodenn.github.io">
+        <a href="file:///Users/denistrautvein/Documents/_/code/qodenn/qodenn_01.html">
             <h3 data-value="menu" class="menux">back</h3>
         </a>
         <div id="time"></div>
@@ -196,7 +207,7 @@
     <div class="border">
         <div id="dead"></div>
         <div id="repo">
-            <div id="info"><h3>no projects published yet</h3></div>
+            <div id="info"><a href="https://qodenn.github.io/DumbGPT.html"><h3>DumbGPT</h3></a></div>
         </div>
         <div id="dead"></div>
     </div>
