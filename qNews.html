@@ -64,13 +64,11 @@
         .time:hover {
             background-color: #000;
             color: #c9c9c9;
-            cursor: url(https://i.imgur.com/oDh3HvU.png), auto;
         }
 
         .time2:hover {
             background-color: #000;
             color: #c9c9c9;
-            cursor: url(https://i.imgur.com/oDh3HvU.png), auto;
         }
 
         /*notif*/
@@ -82,7 +80,13 @@
             margin-top: 100px;
             margin-left: auto;
             margin-right: auto;
+            transition: 1s;
             animation: fadeInOut 7s ease-out .7s forwards;
+            filter: blur(0px);
+        }
+
+        .notif:hover {
+            filter: blur(5px);
         }
 
         .notif3 {
@@ -93,7 +97,7 @@
 
         @media only screen and (max-width: 478.8px) {
             .notif3 {
-                font-size: 15px;
+                font-size: 13px;
             }
         }
 
@@ -119,7 +123,7 @@
         <h3 class="notif3">News are located in 10AM, 3PM, & 8PM<br><br>
             Click on them.</h3>
     </div>
-
+    
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0CCHMYS8F4"></script>
     <script>
